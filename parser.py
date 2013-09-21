@@ -29,8 +29,15 @@ class extensionDoc(object):
                 m = re.split(':', api_intro_title_str)
                 api_intro_title = m[0]
                 api_intro_content = api_intro_tr.select("td:nth-of-type(2)")[0].get_text().strip()
+                if (api_intro_title == "Availability"):
+                    m = re.search('(?<=Stable since Chrome )(\d+)\.?', api_intro_content)
+                    if m is not None:
+                        api_intro_content = m.group(0)[:-1]
+                        print api_intro_content
                 api_list[api_name][api_intro_title] = api_intro_content
-        return json.dumps(api_list)
+        json_formate = json.dumps(api_list);
+        print json_formate
+        return json_formate
 def main():
     doc = extensionDoc()
     doc.downLoadDoc()
